@@ -1,7 +1,7 @@
 <template>
    <div class="container">
 
-     <h2 class="animated bounceInDown" style="color:black;font-weight: bold;"> CHOSE YOUR SMART FARM CONTROL </h2>
+     <h2 class="animated bounceInDown" style="color:#4cba2c;font-weight: bold;font-size: 20px;"> CHOSE  YOUR SMART FARM CONTROL </h2>
      <router-link to="/manual">
   <figure class="snip1273 animated bounceInDown delay-1s" >
     <img src="https://steemitimages.com/0x0/https://s3-us-west-2.amazonaws.com/huntimages/production/steemhunt/2018-11-15/97bbed78-serre-connectee-hambach-e1538413310288.jpg" alt="sample72" />

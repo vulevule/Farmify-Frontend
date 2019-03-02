@@ -54,7 +54,7 @@
 
 <script>
 import axios from "axios";
-import Tabs from "./Tabs"
+import Tabs from "./Tabs";
 
 export default {
   name: "Settings",
@@ -109,6 +109,15 @@ export default {
     newState: function(val) {
       console.log("Event Fired!");
       this.getStates();
+    },
+    alarm: function(val) {
+      this.$swal({
+        type: "warning",
+        title: "Fire detected!",
+        text: "Measures are being taken"
+      });
+
+      this.$store.commit("changeRainDrops", true);
     }
   }
 };

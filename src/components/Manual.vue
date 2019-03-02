@@ -2,7 +2,6 @@
   <!-- Main content START -->
   <div class="container-fluid px-1 px-sm-5">
     <Tabs></Tabs>
-    
     <!-- Featured START -->
     <div class="row">
       <div class="col-12">
@@ -14,7 +13,7 @@
               style="color:black; padding-top: 10px; margin-right: 15px;"
               class="material-icons"
             >wb_incandescent</i>
-            <h5>Main light</h5>
+            <h5>Indoor main light</h5>
             <p
               id="light"
               @click="switcher"
@@ -63,13 +62,19 @@
               <li class="list-group-item">
                 <p class="specs mr-auto mb-auto">
                   Heating temp
-                  <span class="room-temp-C ml-2">{{currTemp}}</span>
+                  <span class="room-temp-C ml-2">{{temperature}}</span>
                   <sup>°C</sup>
                 </p>
               </li>
             </ul>
             <div class="p-4" style="position:relative;">
-              <input v-model="currTemp" class="rangeslider" type="range" max="this.maxTemp" min="this.minTemp">
+              <input
+                v-model="temperature"
+                class="rangeslider"
+                type="range"
+                max="this.maxTemp"
+                min="this.minTemp"
+              >
               <div class="info-holder info-lc">
                 <div data-toggle="popover-all"></div>
               </div>
@@ -97,7 +102,7 @@
                     </p>
                   </div>
                   <p id="raindrops" @click="switcher" class="switch ml-auto mt-2">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="rainDrops">
                   </p>
                 </li>
                 <hr class="my-0">
@@ -141,7 +146,7 @@
 
 <script>
 import axios from "axios";
-import Tabs from '../components/Tabs'
+import Tabs from "./Tabs"
 
 export default {
   name: "Room",
@@ -164,18 +169,21 @@ export default {
             this.$store.commit("changeVentilation", true);
           else this.$store.commit("changeVentilation", false);
 
-          if (response.data[2].state == "on") 
+          if (response.data[2].state == "on")
             this.$store.commit("changeHeating", true);
           else this.$store.commit("changeHeating", false);
 
-          this.$store.commit("changeTemperature", parseInt(response.data[3].state));
+          this.$store.commit(
+            "changeTemperature",
+            parseInt(response.data[3].state)
+          );
           console.log(response);
 
           if (response.data[4].state == "on")
             this.$store.commit("changeRainDrops", true);
           else this.$store.commit("changeRainDrops", false);
 
-          if (response.data[5].state == "on") 
+          if (response.data[5].state == "on")
             this.$store.commit("changeFloorPipes", true);
           else this.$store.commit("changeFloorPipes", false);
         });
@@ -230,6 +238,15 @@ export default {
     newState: function(val) {
       console.log("Event Fired!");
       this.getStates();
+    },
+    alarm: function(val) {
+      this.$swal({
+        type: "warning",
+        title: "Fire detected!",
+        text: "Measures are being taken"
+      });
+
+      this.$store.commit("changeRainDrops", true);
     }
   }
 };
